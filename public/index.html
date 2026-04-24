@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H1BHunter - Find Companies That Sponsor H-1B Visas</title>
+  <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Hero Section -->
+  <section class="hero" id="heroSection">
+    <div class="hero-content">
+      <h1>Find Companies That Will Sponsor Your H-1B Visa</h1>
+      <p class="subheadline">Used by 10,000+ international students to land sponsored jobs</p>
+      
+      <div class="search-container">
+        <div class="search-inputs">
+          <input type="text" id="fieldInput" placeholder="Field of Study (e.g., Computer Science)" class="search-input">
+          <input type="text" id="locationInput" placeholder="Target City or State" class="search-input">
+          <button id="searchBtn" class="btn btn-primary">Search Companies</button>
+        </div>
+      </div>
+
+      <div class="company-counter">
+        <p>Companies in database: <span id="companyCount">0</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section id="resultsSection" class="results-section hidden">
+    <div class="container">
+      <h2>Companies Hiring in Your Field</h2>
+      <div id="companyGrid" class="company-grid">
+        <!-- Companies will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">🌊 H1BHunter</a>
+      <div class="nav-links">
+        <a href="#" id="navHome" class="nav-link active">Home</a>
+        <a href="#" id="navSearch" class="nav-link">Search</a>
+        <a href="#" id="navAlerts" class="nav-link">Alerts</a>
+        <a href="#" id="navOptguard" class="nav-link">OPTGuard</a>
+        <button id="authBtn" class="btn btn-sm">Login</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Modal: Auth -->
+  <div id="authModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2 id="authTitle">Login</h2>
+      <form id="authForm">
+        <input type="email" id="emailInput" placeholder="Email" required>
+        <input type="password" id="passwordInput" placeholder="Password" required>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="toggle-auth">Don't have an account? <a href="#">Sign up</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Company Details -->
+  <div id="companyModal" class="modal hidden">
+    <div class="modal-content modal-large">
+      <button class="modal-close">&times;</button>
+      <div id="companyDetails"></div>
+    </div>
+  </div>
+
+  <!-- OPTGuard Section -->
+  <section id="optguardSection" class="optguard-section hidden">
+    <div class="container">
+      <h2>OPTGuard - Track Your OPT Status</h2>
+      <div class="countdown-timer">
+        <div class="timer-display">
+          <div class="days-remaining">
+            <span id="daysLeft">90</span>
+            <p>Days Left</p>
+          </div>
+          <div class="timer-ring">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="90" class="timer-background"></circle>
+              <circle id="timerCircle" cx="100" cy="100" r="90" class="timer-progress"></circle>
+            </svg>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="milestone">
+            <span class="date" id="optStartDate">Oct 1</span>
+            <p>H-1B Lottery</p>
+          </div>
+          <div class="milestone">
+            <span class="date" id="h1bStartDate">Oct 1</span>
+            <p>H-1B Start</p>
+          </div>
+          <div class="milestone" id="stemMilestone" class="hidden">
+            <span class="date" id="stemEndDate">Oct 1</span>
+            <p>STEM OPT End</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 H1BHunter. Built for international students by Poseidon.</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
