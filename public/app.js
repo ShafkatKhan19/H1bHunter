@@ -178,6 +178,17 @@ async function viewCompanyDetails(companyId) {
         `).join('')
       : '<p>No recent job listings found.</p>';
 
+    const applicationLinksHtml = `
+      <div style="margin: 1.5rem 0; padding: 1.5rem; background: linear-gradient(135deg, rgba(79, 142, 247, 0.1) 0%, rgba(79, 142, 247, 0.05) 100%); border-radius: 8px; border-left: 4px solid #4f8ef7;">
+        <h4 style="margin-top: 0; color: #4f8ef7;">📋 Apply Now</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          ${company.career_page_url ? `<a href="${company.career_page_url}" target="_blank" class="btn btn-primary" style="text-align: center; text-decoration: none;">🌐 Career Page</a>` : ''}
+          ${company.linkedin_jobs_url ? `<a href="${company.linkedin_jobs_url}" target="_blank" class="btn btn-primary" style="text-align: center; text-decoration: none;">💼 LinkedIn Jobs</a>` : ''}
+          ${company.indeed_company_url ? `<a href="${company.indeed_company_url}" target="_blank" class="btn btn-primary" style="text-align: center; text-decoration: none;">🔍 Indeed Company</a>` : ''}
+        </div>
+      </div>
+    `;
+
     companyDetails.innerHTML = `
       <h2>${escapeHtml(company.name)}</h2>
       <p><strong>Industry:</strong> ${escapeHtml(company.industry || 'N/A')}</p>
@@ -187,6 +198,8 @@ async function viewCompanyDetails(companyId) {
       <p><strong>Average Salary:</strong> $${company.average_salary ? company.average_salary.toLocaleString() : 'N/A'}</p>
       <p><strong>Wage Level:</strong> ${company.wage_level || 'N/A'}</p>
       <p><strong>Sponsors Green Cards:</strong> ${company.sponsors_green_cards ? 'Yes' : 'No'}</p>
+      
+      ${applicationLinksHtml}
       
       <div style="margin-top: 2rem;">
         ${jobsHtml}

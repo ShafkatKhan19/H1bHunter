@@ -65,10 +65,24 @@ function initializeDatabase() {
       trust_score INTEGER,
       sponsors_green_cards BOOLEAN,
       wage_level TEXT,
+      career_page_url TEXT,
+      linkedin_jobs_url TEXT,
+      indeed_company_url TEXT,
       last_updated DATETIME,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  // Add URL columns if they don't exist (migration for existing databases)
+  try {
+    db.exec('ALTER TABLE companies ADD COLUMN career_page_url TEXT');
+  } catch (e) { /* column might already exist */ }
+  try {
+    db.exec('ALTER TABLE companies ADD COLUMN linkedin_jobs_url TEXT');
+  } catch (e) { /* column might already exist */ }
+  try {
+    db.exec('ALTER TABLE companies ADD COLUMN indeed_company_url TEXT');
+  } catch (e) { /* column might already exist */ }
 
   // ── AUTO-SEED H-1B COMPANIES ──────────────────────────────
   const companyCount = db.prepare('SELECT COUNT(*) as count FROM companies').get();
