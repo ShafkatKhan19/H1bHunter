@@ -126,6 +126,58 @@ function initializeDatabase() {
       { name: "Eli Lilly", industry: "Pharma", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 138000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
       { name: "Abbott Laboratories", industry: "Healthcare", h1b_petitions_filed: 1200, approval_rate: 93, denial_rate: 7, average_salary: 128000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
       { name: "Raytheon Technologies", industry: "Defense", h1b_petitions_filed: 1600, approval_rate: 90, denial_rate: 10, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+
+      { name: "Alphabet", industry: "Technology", h1b_petitions_filed: 8100, approval_rate: 96, denial_rate: 4, average_salary: 188000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Twitter/X", industry: "Technology", h1b_petitions_filed: 890, approval_rate: 91, denial_rate: 9, average_salary: 168000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level III-IV" },
+      { name: "Lyft", industry: "Technology", h1b_petitions_filed: 680, approval_rate: 92, denial_rate: 8, average_salary: 165000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level III-IV" },
+      { name: "Palantir", industry: "Technology", h1b_petitions_filed: 540, approval_rate: 94, denial_rate: 6, average_salary: 175000, trust_score: 9, sponsors_green_cards: 0, wage_level: "Level III-IV" },
+      { name: "Spotify", industry: "Technology", h1b_petitions_filed: 620, approval_rate: 93, denial_rate: 7, average_salary: 158000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level III-IV" },
+      { name: "Zoom", industry: "Technology", h1b_petitions_filed: 580, approval_rate: 93, denial_rate: 7, average_salary: 162000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Slack", industry: "Technology", h1b_petitions_filed: 420, approval_rate: 94, denial_rate: 6, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Dropbox", industry: "Technology", h1b_petitions_filed: 380, approval_rate: 93, denial_rate: 7, average_salary: 158000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Intuit", industry: "Technology", h1b_petitions_filed: 920, approval_rate: 94, denial_rate: 6, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "VMware", industry: "Technology", h1b_petitions_filed: 1600, approval_rate: 93, denial_rate: 7, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "SAP", industry: "Technology", h1b_petitions_filed: 1400, approval_rate: 92, denial_rate: 8, average_salary: 148000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Dell Technologies", industry: "Technology", h1b_petitions_filed: 2200, approval_rate: 91, denial_rate: 9, average_salary: 135000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "HP Inc", industry: "Technology", h1b_petitions_filed: 1100, approval_rate: 91, denial_rate: 9, average_salary: 130000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Hewlett Packard Enterprise", industry: "Technology", h1b_petitions_filed: 1300, approval_rate: 91, denial_rate: 9, average_salary: 138000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Texas Instruments", industry: "Semiconductors", h1b_petitions_filed: 1400, approval_rate: 93, denial_rate: 7, average_salary: 142000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Marvell Technology", industry: "Semiconductors", h1b_petitions_filed: 920, approval_rate: 94, denial_rate: 6, average_salary: 158000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Applied Materials", industry: "Semiconductors", h1b_petitions_filed: 1800, approval_rate: 93, denial_rate: 7, average_salary: 148000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Lam Research", industry: "Semiconductors", h1b_petitions_filed: 1200, approval_rate: 94, denial_rate: 6, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "KLA Corporation", industry: "Semiconductors", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 152000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Micron Technology", industry: "Semiconductors", h1b_petitions_filed: 1600, approval_rate: 92, denial_rate: 8, average_salary: 142000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Western Digital", industry: "Technology", h1b_petitions_filed: 1100, approval_rate: 91, denial_rate: 9, average_salary: 138000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Seagate Technology", industry: "Technology", h1b_petitions_filed: 820, approval_rate: 91, denial_rate: 9, average_salary: 132000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "BlackRock", industry: "Finance", h1b_petitions_filed: 1200, approval_rate: 95, denial_rate: 5, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Fidelity Investments", industry: "Finance", h1b_petitions_filed: 1400, approval_rate: 93, denial_rate: 7, average_salary: 148000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Charles Schwab", industry: "Finance", h1b_petitions_filed: 880, approval_rate: 92, denial_rate: 8, average_salary: 138000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "American Express", industry: "Finance", h1b_petitions_filed: 1100, approval_rate: 93, denial_rate: 7, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Visa", industry: "Finance", h1b_petitions_filed: 980, approval_rate: 95, denial_rate: 5, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Mastercard", industry: "Finance", h1b_petitions_filed: 920, approval_rate: 94, denial_rate: 6, average_salary: 158000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "PayPal", industry: "Finance", h1b_petitions_filed: 1100, approval_rate: 93, denial_rate: 7, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Verizon", industry: "Telecommunications", h1b_petitions_filed: 1800, approval_rate: 91, denial_rate: 9, average_salary: 128000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "AT&T", industry: "Telecommunications", h1b_petitions_filed: 2100, approval_rate: 90, denial_rate: 10, average_salary: 122000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "T-Mobile", industry: "Telecommunications", h1b_petitions_filed: 920, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Johnson Controls", industry: "Engineering", h1b_petitions_filed: 880, approval_rate: 91, denial_rate: 9, average_salary: 118000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Honeywell", industry: "Engineering", h1b_petitions_filed: 2100, approval_rate: 92, denial_rate: 8, average_salary: 128000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Siemens", industry: "Engineering", h1b_petitions_filed: 1600, approval_rate: 92, denial_rate: 8, average_salary: 132000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "General Electric", industry: "Engineering", h1b_petitions_filed: 1800, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "3M", industry: "Manufacturing", h1b_petitions_filed: 980, approval_rate: 92, denial_rate: 8, average_salary: 122000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Caterpillar", industry: "Manufacturing", h1b_petitions_filed: 880, approval_rate: 91, denial_rate: 9, average_salary: 115000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "ExxonMobil", industry: "Energy", h1b_petitions_filed: 1200, approval_rate: 92, denial_rate: 8, average_salary: 128000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Chevron", industry: "Energy", h1b_petitions_filed: 980, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "UnitedHealth Group", industry: "Healthcare", h1b_petitions_filed: 2400, approval_rate: 92, denial_rate: 8, average_salary: 132000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "CVS Health", industry: "Healthcare", h1b_petitions_filed: 1100, approval_rate: 91, denial_rate: 9, average_salary: 118000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Medtronic", industry: "Healthcare", h1b_petitions_filed: 1400, approval_rate: 93, denial_rate: 7, average_salary: 135000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Stryker", industry: "Healthcare", h1b_petitions_filed: 980, approval_rate: 93, denial_rate: 7, average_salary: 128000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Bristol-Myers Squibb", industry: "Pharma", h1b_petitions_filed: 1200, approval_rate: 94, denial_rate: 6, average_salary: 138000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "AstraZeneca", industry: "Pharma", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 142000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Roche", industry: "Pharma", h1b_petitions_filed: 1100, approval_rate: 94, denial_rate: 6, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Novartis", industry: "Pharma", h1b_petitions_filed: 920, approval_rate: 94, denial_rate: 6, average_salary: 142000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Amazon Web Services", industry: "Cloud Computing", h1b_petitions_filed: 4200, approval_rate: 95, denial_rate: 5, average_salary: 175000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Microsoft Azure", industry: "Cloud Computing", h1b_petitions_filed: 3800, approval_rate: 95, denial_rate: 5, average_salary: 178000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV" },
+      { name: "Ford Motor Company", industry: "Automotive", h1b_petitions_filed: 1200, approval_rate: 90, denial_rate: 10, average_salary: 115000, trust_score: 8, sponsors_green_cards: 1, wage_level: "Level II-III" },
       { name: "Wells Fargo", industry: "Finance", h1b_petitions_filed: 1700, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
     ];
 
@@ -316,42 +368,21 @@ app.post('/api/auth/login', (req, res) => {
 
 // Company Search
 app.get('/api/companies/search', (req, res) => {
-  const { field, location, industry, name, limit = 20, offset = 0 } = req.query;
-
+  const { field, location, industry, name, limit = 200, offset = 0 } = req.query;
   let query = 'SELECT * FROM companies WHERE 1=1';
   const params = [];
-
-  // Search by field of study OR company name OR industry
-  if (field) {
-    query += ' AND (industry LIKE ? OR name LIKE ?)';
-    params.push(`%${field}%`, `%${field}%`);
-  }
-
-  // Search by industry specifically
-  if (industry) {
-    query += ' AND industry LIKE ?';
-    params.push(`%${industry}%`);
-  }
-
-  // Search by company name
-  if (name) {
-    query += ' AND name LIKE ?';
-    params.push(`%${name}%`);
-  }
-
-  query += ' ORDER BY h1b_petitions_filed DESC, trust_score DESC LIMIT ? OFFSET ?';
+  if (field) { query += ' AND (industry LIKE ? OR name LIKE ?)'; params.push(`%${field}%`, `%${field}%`); }
+  if (industry) { query += ' AND industry LIKE ?'; params.push(`%${industry}%`); }
+  if (name) { query += ' AND name LIKE ?'; params.push(`%${name}%`); }
+  query += ' ORDER BY h1b_petitions_filed DESC LIMIT ? OFFSET ?';
   params.push(parseInt(limit), parseInt(offset));
-
   const companies = db.prepare(query).all(...params);
-
-  // Count with same filters
-  let countQuery = 'SELECT COUNT(*) as count FROM companies WHERE 1=1';
-  const countParams = [];
-  if (field) { countQuery += ' AND (industry LIKE ? OR name LIKE ?)'; countParams.push(`%${field}%`, `%${field}%`); }
-  if (industry) { countQuery += ' AND industry LIKE ?'; countParams.push(`%${industry}%`); }
-  if (name) { countQuery += ' AND name LIKE ?'; countParams.push(`%${name}%`); }
-  const total = db.prepare(countQuery).get(...countParams).count;
-
+  let cq = 'SELECT COUNT(*) as count FROM companies WHERE 1=1';
+  const cp = [];
+  if (field) { cq += ' AND (industry LIKE ? OR name LIKE ?)'; cp.push(`%${field}%`, `%${field}%`); }
+  if (industry) { cq += ' AND industry LIKE ?'; cp.push(`%${industry}%`); }
+  if (name) { cq += ' AND name LIKE ?'; cp.push(`%${name}%`); }
+  const total = db.prepare(cq).get(...cp).count;
   res.json({ companies, total, limit: parseInt(limit), offset: parseInt(offset) });
 });
 
