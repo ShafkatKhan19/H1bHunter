@@ -241,9 +241,14 @@ function verifyToken(req, res, next) {
   if (!token) {
     return res.status(401).json({ error: 'No token provided' });
   }
-  // In production, verify JWT signature here
-  req.userId = req.headers['x-user-id'];
-  next();
+  try {
+    const jwt = require('jsonwebtoken');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'h1bhunter-secret');
+    req.userId = decoded.userId;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token' });
+  }
 }
 
 // ===== API ROUTES =====
@@ -311,23 +316,43 @@ app.post('/api/auth/login', (req, res) => {
 
 // Company Search
 app.get('/api/companies/search', (req, res) => {
-  const { field, location, limit = 20, offset = 0 } = req.query;
+  const { field, location, industry, name, limit = 20, offset = 0 } = req.query;
 
   let query = 'SELECT * FROM companies WHERE 1=1';
   const params = [];
 
+  // Search by field of study OR company name OR industry
   if (field) {
-    query += ' AND industry LIKE ?';
-    params.push(`%${field}%`);
+    query += ' AND (industry LIKE ? OR name LIKE ?)';
+    params.push(`%${field}%`, `%${field}%`);
   }
 
-  query += ' ORDER BY trust_score DESC LIMIT ? OFFSET ?';
+  // Search by industry specifically
+  if (industry) {
+    query += ' AND industry LIKE ?';
+    params.push(`%${industry}%`);
+  }
+
+  // Search by company name
+  if (name) {
+    query += ' AND name LIKE ?';
+    params.push(`%${name}%`);
+  }
+
+  query += ' ORDER BY h1b_petitions_filed DESC, trust_score DESC LIMIT ? OFFSET ?';
   params.push(parseInt(limit), parseInt(offset));
 
   const companies = db.prepare(query).all(...params);
-  const total = db.prepare('SELECT COUNT(*) as count FROM companies').get().count;
 
-  res.json({ companies, total, limit, offset });
+  // Count with same filters
+  let countQuery = 'SELECT COUNT(*) as count FROM companies WHERE 1=1';
+  const countParams = [];
+  if (field) { countQuery += ' AND (industry LIKE ? OR name LIKE ?)'; countParams.push(`%${field}%`, `%${field}%`); }
+  if (industry) { countQuery += ' AND industry LIKE ?'; countParams.push(`%${industry}%`); }
+  if (name) { countQuery += ' AND name LIKE ?'; countParams.push(`%${name}%`); }
+  const total = db.prepare(countQuery).get(...countParams).count;
+
+  res.json({ companies, total, limit: parseInt(limit), offset: parseInt(offset) });
 });
 
 // Get Company Details
@@ -497,9 +522,24 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
   res.json({ received: true });
 });
 
+// Get all industries for filter dropdown
+app.get('/api/industries', (req, res) => {
+  const industries = db.prepare('SELECT DISTINCT industry FROM companies ORDER BY industry').all();
+  res.json({ industries: industries.map(r => r.industry) });
+});
+
+// Get company stats
+app.get('/api/stats', (req, res) => {
+  const total = db.prepare('SELECT COUNT(*) as count FROM companies').get().count;
+  const totalPetitions = db.prepare('SELECT SUM(h1b_petitions_filed) as total FROM companies').get().total;
+  const avgApproval = db.prepare('SELECT AVG(approval_rate) as avg FROM companies').get().avg;
+  res.json({ totalCompanies: total, totalPetitions, avgApprovalRate: avgApproval ? avgApproval.toFixed(1) : 0 });
+});
+
 // Health check (required for Railway)
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+  const companyCount = db.prepare('SELECT COUNT(*) as count FROM companies').get().count;
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString(), companies: companyCount });
 });
 
 // Serve homepage
