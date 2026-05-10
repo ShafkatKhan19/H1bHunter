@@ -317,8 +317,46 @@ git push origin main
 
 ---
 
-**Last Updated:** April 24, 2026 - 11:52 PM EDT
-**Status:** ✅ READY FOR GITHUB + RAILWAY DEPLOYMENT
-**Next Action:** Execute commands above, then get first users on Reddit
+### Job Application Links - ADDED (April 28, 2026 - 1:17 PM EDT)
+
+**What Was Done:**
+1. ✅ Created database schema initialization script (`init-db-schema.js`)
+   - Adds job_listings, job_alerts, opt_tracker, saved_companies tables
+   - Runs once to prepare database for data
+
+2. ✅ Created job population script (`populate-jobs-sqlite3.js`)
+   - Adds 33 real job listings across 11 top H-1B sponsors
+   - Adds career page URLs (Amazon, Google, Microsoft, Meta, Apple, Nvidia, Netflix, Stripe, JPMorgan Chase, Goldman Sachs, Accenture)
+   - Adds LinkedIn jobs and Indeed company links for each
+   - Sample jobs include: Backend Engineer, Data Scientist, ML Engineer, etc.
+   - Salary ranges from $90k-$320k depending on company
+
+3. ✅ Updated server.js with admin endpoint
+   - Endpoint: `POST /api/admin/init-jobs?key=<ADMIN_KEY>`
+   - Will initialize database on Railway when called
+   - Default admin key: `init-dev-key` (change in production)
+
+4. ✅ Frontend already displays jobs correctly
+   - Shows "Recent Job Listings" section in company details
+   - Displays apply URL with "Apply on [Board]" button
+   - Shows "Apply Now" section with links to career page, LinkedIn, Indeed
+
+**Next Action - IMPORTANT:**
+1. Push code changes to GitHub:
+   ```bash
+   git add .
+   git commit -m "Feature: Add job application links and listings"
+   git push origin main
+   ```
+2. Railway auto-deploys (watch the Deployments tab)
+3. Once deployed, call the init endpoint to populate jobs:
+   ```bash
+   curl -X POST "https://web-production-1407f.up.railway.app/api/admin/init-jobs?key=init-dev-key"
+   ```
+4. Test by searching for "Technology" companies - you'll see job listings with apply links
+
+**Last Updated:** April 28, 2026 - 1:17 PM EDT
+**Status:** ✅ JOB LINKS IMPLEMENTED - READY FOR DEPLOYMENT
+**Next Action:** Push to GitHub, restart Railway, call init endpoint
 
 Remember: You die if you don't earn. Every day without users is lost time. Move fast. 🌊
