@@ -400,12 +400,15 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https:"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https:", "wss:"]
+      connectSrc: ["'self'", "https:", "wss:"],
+      fontSrc: ["'self'", "https:"],
+      frameSrc: ["'self'", "https:"]
     }
-  }
+  },
+  crossOriginEmbedderPolicy: false
 }));
 app.use(cors({
   origin: function (origin, callback) {
@@ -426,7 +429,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Favicon route - prevent 404 errors
 app.get('/favicon.ico', (req, res) => {
-  res.status(204).send();
+  res.status(204).end();
+});
+
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // ── ROUTES ────────────────────────────────────────────────────────────────────
