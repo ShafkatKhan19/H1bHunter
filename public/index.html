@@ -1,394 +1,377 @@
-<!-- UPDATED PUBLIC/INDEX.HTML - REPLACE ENTIRE FILE WITH THIS -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>H1BHunter - Find H-1B Visa Sponsors</title>
-  <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/styles-paywall.css">
+  <title>H1BHunter - Find H-1B Sponsoring Companies</title>
+  <link rel="stylesheet" href="/styles-minimal.css">
 </head>
 <body>
-  <div id="app">
-    <!-- NAVIGATION TABS -->
-    <nav class="top-navbar">
-      <div class="navbar-content">
-        <div class="navbar-brand">H1BHunter</div>
-        <div class="nav-tabs">
-          <button class="nav-tab active" data-page="search">Search</button>
-          <button class="nav-tab" data-page="jobs">Jobs</button>
-          <button class="nav-tab" data-page="resume">Resume</button>
-          <button class="nav-tab" data-page="dashboard">Dashboard</button>
-          <button class="nav-tab" data-page="upgrade">Upgrade</button>
-        </div>
-        <div class="navbar-user">
-          <button id="authBtn" class="btn btn-sm">Login</button>
-          <button id="logoutBtn" class="btn btn-sm hidden">Logout</button>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">H1BHunter</div>
+      <nav>
+        <a href="#" class="nav-link active" data-page="companies">Companies</a>
+        <a href="#" class="nav-link" data-page="saved">Saved</a>
+        <a href="#" class="nav-link" data-page="account">Account</a>
+      </nav>
+      <div>
+        <button id="loginBtn" class="secondary">Login</button>
+        <button id="logoutBtn" class="hidden">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Companies Page -->
+    <section id="companiesPage" class="page active">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="container">
+          <h1>Find H-1B Sponsoring Companies</h1>
+          <p>Search the top 50 US companies offering H-1B visa sponsorship</p>
         </div>
       </div>
-    </nav>
 
-    <!-- PAGE CONTAINER -->
-    <div class="page-container">
-      <!-- SEARCH PAGE -->
-      <section id="searchPage" class="page active">
-        <!-- Cap Season Banner (Jan-April only) -->
-        <div id="capSeasonBanner" class="cap-season-banner hidden">
-          <span id="capSeasonText">Cap season closes in X days</span>
-        </div>
-
-        <div class="hero">
-          <div class="hero-content">
-            <h1>Find Companies That Sponsor H-1B Visas</h1>
-            <p class="subheadline">Used by 10,000+ international students to find their sponsors</p>
-            
-            <div class="search-container">
-              <input type="text" id="fieldInput" placeholder="Field of Study (e.g., Computer Science)" class="search-input">
-              <input type="text" id="locationInput" placeholder="Target City or State" class="search-input">
-              <button id="searchBtn" class="btn btn-primary">Search Companies</button>
-            </div>
-
-            <p class="company-counter">Verified companies in database: <strong id="companyCount">0</strong></p>
-          </div>
-        </div>
-
-        <!-- RESULTS TABLE -->
-        <section id="resultsSection" class="results-section hidden">
-          <div class="container">
-            <h2 id="resultsTitle">Search Results</h2>
-            <div class="results-info">
-              <p id="resultsSummary"></p>
-            </div>
-            <table class="results-table">
-              <thead>
-                <tr>
-                  <th>Company Name</th>
-                  <th>Location</th>
-                  <th>H-1B Sponsor</th>
-                  <th class="locked-column">Approval Rate</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="resultsTableBody">
-              </tbody>
-            </table>
-            <div id="unlockRow" class="unlock-row hidden">
-              <p><span id="moreCount">0</span> more companies found — <a href="#" onclick="showUpgradeModal(event)">unlock all results</a></p>
-            </div>
-          </div>
-        </section>
-      </section>
-
-      <!-- JOBS PAGE -->
-      <section id="jobsPage" class="page">
+      <!-- Search Form -->
+      <div class="content">
         <div class="container">
-          <h2>Premium Job Listings</h2>
-          <p class="subtitle">Jobs from H-1B sponsors with visa-friendly analysis</p>
-          
-          <div id="jobsLockedState" class="locked-state">
-            <div class="lock-icon">🔒</div>
-            <h3>This feature requires premium</h3>
-            <p>See job listings from Greenhouse, Lever, and Workday with AI analysis for visa safety.</p>
-            <button class="btn btn-primary" onclick="showUpgradeModal(event)">Unlock Jobs</button>
+          <div class="search-form">
+            <input type="text" id="searchInput" placeholder="Search by company name">
+            <select id="industryFilter">
+              <option value="">All Industries</option>
+              <option value="Technology">Technology</option>
+              <option value="Finance">Finance</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Pharma">Pharma</option>
+              <option value="Consulting">Consulting</option>
+              <option value="Defense">Defense</option>
+              <option value="IT Consulting">IT Consulting</option>
+            </select>
+            <button onclick="searchCompanies()">Search</button>
           </div>
 
-          <div id="jobsList" class="jobs-list hidden">
-            <!-- Jobs will be loaded here -->
+          <!-- Results -->
+          <div id="resultsContainer" class="hidden">
+            <h2 style="margin: 20px 0; font-size: 20px;">Search Results</h2>
+            <div class="results">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Industry</th>
+                    <th>Approval Rate</th>
+                    <th>Avg Salary</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsTable">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Companies Grid (Default) -->
+          <div id="companiesContainer" class="companies-grid">
+            <!-- Companies loaded here -->
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- RESUME PAGE -->
-      <section id="resumePage" class="page">
+    <!-- Saved Companies Page -->
+    <section id="savedPage" class="page hidden">
+      <div class="content">
         <div class="container">
-          <h2>AI Resume Customizer</h2>
-          <p class="subtitle">Tailor your resume to any job in 3 steps</p>
-
-          <div id="resumeLockedState" class="locked-state">
-            <div class="lock-icon">🔒</div>
-            <h3>This feature requires premium</h3>
-            <p>Get 3 AI-powered resume customizations included, then $0.99 each.</p>
-            <button class="btn btn-primary" onclick="showUpgradeModal(event)">Unlock Resume Builder</button>
-          </div>
-
-          <div id="resumeBuilder" class="resume-builder hidden">
-            <div class="attempts-counter">
-              <span id="attemptsText">3 attempts remaining</span>
-            </div>
-
-            <!-- Step 1: Job URL -->
-            <div id="step1" class="resume-step active">
-              <h3>Step 1: Enter Job URL</h3>
-              <p>Paste the link to the job posting you're applying for.</p>
-              <input type="url" id="jobUrlInput" placeholder="https://boards.greenhouse.io/..." class="full-width">
-              <button onclick="resumeStep1()" class="btn btn-primary">Extract Job Requirements</button>
-              <div id="step1Status" class="status"></div>
-            </div>
-
-            <!-- Step 2: Upload Resume -->
-            <div id="step2" class="resume-step hidden">
-              <h3>Step 2: Upload Your Resume</h3>
-              <p>Upload your current resume (PDF or Word .docx)</p>
-              <input type="file" id="resumeFileInput" accept=".pdf,.docx,.doc" class="full-width">
-              <button onclick="resumeStep2()" class="btn btn-primary">Parse Resume</button>
-              <div id="step2Status" class="status"></div>
-            </div>
-
-            <!-- Step 3: Review & Edit Sections -->
-            <div id="step3" class="resume-step hidden">
-              <h3>Step 3: Review Suggestions</h3>
-              <p>Review and approve improvements for each section.</p>
-              
-              <div id="sectionsContainer">
-                <!-- Sections will be loaded here -->
-              </div>
-
-              <button onclick="downloadResume()" class="btn btn-primary full-width">Download Customized Resume</button>
-            </div>
+          <h1>Saved Companies</h1>
+          <div id="savedContainer" class="companies-grid">
+            <p>No saved companies yet.</p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- DASHBOARD PAGE -->
-      <section id="dashboardPage" class="page">
+    <!-- Account Page -->
+    <section id="accountPage" class="page hidden">
+      <div class="content">
         <div class="container">
-          <h2>Your Dashboard</h2>
-
-          <div class="dashboard-grid">
-            <!-- Account Info -->
-            <div class="dashboard-card">
-              <h3>Account</h3>
-              <p><strong id="dashEmail"></strong></p>
-              <p id="dashPlan">Free plan</p>
-            </div>
-
-            <!-- Subscription -->
-            <div class="dashboard-card">
-              <h3>Subscription</h3>
-              <p id="dashSubPlan">Free</p>
-              <p id="dashRenewal"></p>
-              <button id="cancelSubBtn" class="btn btn-outline hidden" onclick="cancelSubscription()">Cancel Subscription</button>
-            </div>
-
-            <!-- Resume Attempts -->
-            <div class="dashboard-card">
-              <h3>Resume Customizations</h3>
-              <p id="dashAttempts">0/3 used</p>
-              <p id="dashAttemptsDetail"></p>
-            </div>
-          </div>
-
-          <!-- Saved Companies -->
-          <div class="dashboard-section">
-            <h3>Saved Companies</h3>
-            <div id="savedCompaniesList" class="companies-list">
-              <p>No saved companies yet.</p>
-            </div>
-          </div>
-
-          <!-- Job History -->
-          <div class="dashboard-section">
-            <h3>Recent Job Clicks</h3>
-            <div id="jobHistoryList" class="job-history">
-              <p>No job history yet.</p>
-            </div>
+          <h1>Account</h1>
+          <div id="accountInfo">
+            <p>Please login to view your account.</p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  </main>
 
-      <!-- UPGRADE PAGE -->
-      <section id="upgradePage" class="page">
-        <div class="container upgrade-container">
-          <h2>Unlock Premium</h2>
-          <p class="subtitle">Everything you need to land your H-1B sponsor</p>
-
-          <div class="pricing-comparison">
-            <table class="comparison-table">
-              <thead>
-                <tr>
-                  <th>Feature</th>
-                  <th>Free</th>
-                  <th>Premium</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Company name & location</td>
-                  <td>✓</td>
-                  <td>✓</td>
-                </tr>
-                <tr>
-                  <td>H-1B sponsor status</td>
-                  <td>✓</td>
-                  <td>✓</td>
-                </tr>
-                <tr>
-                  <td>Results per search</td>
-                  <td>5</td>
-                  <td>Unlimited</td>
-                </tr>
-                <tr class="premium-feature">
-                  <td>H-1B approval rates</td>
-                  <td><span class="lock">🔒</span></td>
-                  <td>✓</td>
-                </tr>
-                <tr class="premium-feature">
-                  <td>Approval rate trends</td>
-                  <td><span class="lock">🔒</span></td>
-                  <td>✓</td>
-                </tr>
-                <tr class="premium-feature">
-                  <td>Job portal scraping</td>
-                  <td><span class="lock">🔒</span></td>
-                  <td>✓</td>
-                </tr>
-                <tr class="premium-feature">
-                  <td>AI resume customizer</td>
-                  <td><span class="lock">🔒</span></td>
-                  <td>3 free + $0.99 each</td>
-                </tr>
-                <tr class="premium-feature">
-                  <td>Email job alerts</td>
-                  <td><span class="lock">🔒</span></td>
-                  <td>✓</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="pricing-options">
-            <div class="price-card">
-              <h3>Monthly</h3>
-              <div class="price">$4.99<span class="period">/month</span></div>
-              <button class="btn btn-primary" onclick="startCheckout('monthly')">Subscribe Monthly</button>
-            </div>
-
-            <div class="price-card highlight">
-              <span class="badge">Best Value</span>
-              <h3>Cap Season Pass</h3>
-              <div class="price">$19<span class="period">/6 months</span></div>
-              <button class="btn btn-primary" onclick="startCheckout('cap-season')">Get Cap Season Pass</button>
-            </div>
-          </div>
-
-          <p class="pricing-footer">Less than one coffee. Cancel anytime.</p>
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeLogin()">&times;</button>
+      <h2>Login / Sign Up</h2>
+      <form onsubmit="handleAuth(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="emailInput" placeholder="your@email.com" required>
         </div>
-      </section>
-    </div>
-
-    <!-- MODALS -->
-    <!-- Auth Modal -->
-    <div id="authModal" class="modal hidden">
-      <div class="modal-content">
-        <button class="modal-close" onclick="closeAuthModal()">&times;</button>
-        <h2 id="authTitle">Login</h2>
-        <form id="authForm" onsubmit="handleAuth(event)">
-          <input type="email" id="emailInput" placeholder="Email" required>
+        <div class="form-group">
+          <label>Password</label>
           <input type="password" id="passwordInput" placeholder="Password" required>
-          <button type="submit" class="btn btn-primary">Login</button>
-          <p class="toggle-auth">Don't have an account? <a href="#" onclick="toggleAuthMode(event)">Sign up</a></p>
-        </form>
-      </div>
-    </div>
-
-    <!-- Upgrade Modal (Paywall) -->
-    <div id="upgradeModal" class="modal hidden">
-      <div class="modal-content modal-large">
-        <button class="modal-close" onclick="closeUpgradeModal()">&times;</button>
-        <h2>Unlock H-1B Approval Rates</h2>
-        
-        <table class="paywall-comparison">
-          <thead>
-            <tr>
-              <th>Free</th>
-              <th>Premium</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Company name & location</td>
-              <td>Company name & location</td>
-            </tr>
-            <tr>
-              <td>H-1B sponsor status</td>
-              <td>H-1B sponsor status</td>
-            </tr>
-            <tr>
-              <td>5 results per search</td>
-              <td>Unlimited results</td>
-            </tr>
-            <tr class="highlighted">
-              <td><span class="lock">🔒</span></td>
-              <td>H-1B approval rate %</td>
-            </tr>
-            <tr class="highlighted">
-              <td><span class="lock">🔒</span></td>
-              <td>Approval trends ▲▼</td>
-            </tr>
-            <tr class="highlighted">
-              <td><span class="lock">🔒</span></td>
-              <td>Job scraping</td>
-            </tr>
-            <tr class="highlighted">
-              <td><span class="lock">🔒</span></td>
-              <td>Email alerts</td>
-            </tr>
-            <tr class="highlighted">
-              <td><span class="lock">🔒</span></td>
-              <td>3 AI resume customizations<br>+ $0.99 each after</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="paywall-pricing">
-          <button class="btn btn-primary" onclick="startCheckout('monthly')">$4.99/month</button>
-          <button class="btn btn-primary highlight" onclick="startCheckout('cap-season')">$19 cap season (6 months)</button>
         </div>
-
-        <p class="paywall-footer">Less than one coffee. Cancel anytime.</p>
-      </div>
-    </div>
-
-    <!-- Resume Section Editor Modal -->
-    <div id="resumeSectionModal" class="modal hidden">
-      <div class="modal-content modal-large">
-        <button class="modal-close" onclick="closeSectionModal()">&times;</button>
-        <h2 id="sectionTitle">Edit Section</h2>
-        
-        <div class="section-comparison">
-          <div class="original">
-            <h4>Original</h4>
-            <p id="originalSection"></p>
-          </div>
-          <div class="suggested">
-            <h4>Suggested</h4>
-            <textarea id="suggestedSection" class="full-width"></textarea>
-          </div>
-        </div>
-
-        <div class="modal-actions">
-          <button class="btn btn-primary" onclick="approveSectionEdit()">Approve</button>
-          <button class="btn btn-outline" onclick="closeSectionModal()">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Payment Confirmation Modal -->
-    <div id="paymentConfirmModal" class="modal hidden">
-      <div class="modal-content">
-        <button class="modal-close" onclick="closePaymentModal()">&times;</button>
-        <h2>Confirm Payment</h2>
-        <p>You have used your 3 included customizations. This attempt will cost <strong>$0.99</strong>. Proceed?</p>
-        
-        <div class="modal-actions">
-          <button class="btn btn-primary" onclick="confirmPaymentCharge()">Confirm & Continue</button>
-          <button class="btn btn-outline" onclick="closePaymentModal()">Cancel</button>
-        </div>
-      </div>
+        <button type="submit">Login</button>
+        <p style="text-align: center; color: #666; font-size: 14px;">
+          Don't have an account? Click login to sign up.
+        </p>
+      </form>
     </div>
   </div>
 
-  <script src="/app.js"></script>
+  <script>
+    const API_BASE = '/api';
+    let allCompanies = [];
+    let currentUser = null;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCompanies();
+      setupNavigation();
+      checkAuth();
+    });
+
+    function setupNavigation() {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const page = e.target.dataset.page;
+          showPage(page);
+        });
+      });
+
+      document.getElementById('loginBtn').addEventListener('click', openLogin);
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+    }
+
+    function showPage(pageName) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      
+      // Show selected page
+      const page = document.getElementById(pageName + 'Page');
+      if (page) page.classList.remove('hidden');
+
+      // Update nav
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.page === pageName) link.classList.add('active');
+      });
+
+      if (pageName === 'account') loadAccount();
+      if (pageName === 'saved') loadSaved();
+    }
+
+    async function loadCompanies() {
+      try {
+        const response = await fetch(`${API_BASE}/companies/search?limit=50`);
+        const data = await response.json();
+        allCompanies = data.companies || [];
+        renderCompanies(allCompanies);
+      } catch (err) {
+        console.error('Failed to load companies:', err);
+      }
+    }
+
+    function renderCompanies(companies) {
+      const container = document.getElementById('companiesContainer');
+      container.innerHTML = companies.map(c => `
+        <div class="company-card">
+          <h3>${escapeHtml(c.name)}</h3>
+          <div class="label">${escapeHtml(c.industry || 'N/A')}</div>
+          <div class="company-stats">
+            <div class="stat">
+              <div class="stat-label">Approval Rate</div>
+              <div class="stat-value">${(c.approval_rate || 0).toFixed(0)}%</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Avg Salary</div>
+              <div class="stat-value">$${(c.average_salary || 0).toLocaleString()}</div>
+            </div>
+          </div>
+          <div class="company-stats">
+            <div class="stat">
+              <div class="stat-label">Petitions</div>
+              <div class="stat-value">${(c.h1b_petitions_filed || 0).toLocaleString()}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Green Card</div>
+              <div class="stat-value">${c.sponsors_green_cards ? 'Yes' : 'No'}</div>
+            </div>
+          </div>
+          ${c.career_page_url ? `<a href="${c.career_page_url}" target="_blank"><button>Apply Now</button></a>` : ''}
+          ${currentUser ? `<button class="secondary" onclick="saveCompany('${c.id}')" style="margin-top: 8px;">Save</button>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function searchCompanies() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const industry = document.getElementById('industryFilter').value;
+
+      let filtered = allCompanies.filter(c => {
+        const nameMatch = c.name.toLowerCase().includes(query);
+        const industryMatch = !industry || c.industry === industry;
+        return nameMatch && industryMatch;
+      });
+
+      if (filtered.length > 0) {
+        document.getElementById('resultsContainer').classList.remove('hidden');
+        renderTable(filtered);
+        document.getElementById('companiesContainer').classList.add('hidden');
+      } else {
+        document.getElementById('resultsContainer').classList.add('hidden');
+        renderCompanies(allCompanies);
+      }
+    }
+
+    function renderTable(companies) {
+      const tbody = document.getElementById('resultsTable');
+      tbody.innerHTML = companies.map(c => `
+        <tr>
+          <td><strong>${escapeHtml(c.name)}</strong></td>
+          <td>${escapeHtml(c.industry || 'N/A')}</td>
+          <td>${(c.approval_rate || 0).toFixed(0)}%</td>
+          <td>$${(c.average_salary || 0).toLocaleString()}</td>
+          <td>
+            ${c.career_page_url ? `<a href="${c.career_page_url}" target="_blank"><button>Apply</button></a>` : '-'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openLogin() {
+      document.getElementById('loginModal').classList.add('active');
+    }
+
+    function closeLogin() {
+      document.getElementById('loginModal').classList.remove('active');
+    }
+
+    async function handleAuth(event) {
+      event.preventDefault();
+      const email = document.getElementById('emailInput').value;
+      const password = document.getElementById('passwordInput').value;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+        if (data.token) {
+          localStorage.setItem('h1b_token', data.token);
+          localStorage.setItem('h1b_user', JSON.stringify(data.user));
+          currentUser = data.user;
+          closeLogin();
+          checkAuth();
+          location.reload();
+        } else {
+          alert(data.error || 'Auth failed');
+        }
+      } catch (err) {
+        console.error('Auth error:', err);
+      }
+    }
+
+    function checkAuth() {
+      const token = localStorage.getItem('h1b_token');
+      const user = localStorage.getItem('h1b_user');
+      
+      if (token && user) {
+        currentUser = JSON.parse(user);
+        document.getElementById('loginBtn').classList.add('hidden');
+        document.getElementById('logoutBtn').classList.remove('hidden');
+      } else {
+        document.getElementById('loginBtn').classList.remove('hidden');
+        document.getElementById('logoutBtn').classList.add('hidden');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('h1b_token');
+      localStorage.removeItem('h1b_user');
+      currentUser = null;
+      checkAuth();
+      location.reload();
+    }
+
+    async function saveCompany(companyId) {
+      if (!currentUser) {
+        openLogin();
+        return;
+      }
+
+      try {
+        await fetch(`${API_BASE}/companies/${companyId}/save`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('h1b_token')}` }
+        });
+        alert('Saved');
+      } catch (err) {
+        console.error('Save error:', err);
+      }
+    }
+
+    async function loadAccount() {
+      if (!currentUser) {
+        document.getElementById('accountInfo').innerHTML = '<p>Please login</p>';
+        return;
+      }
+
+      document.getElementById('accountInfo').innerHTML = `
+        <div style="background: white; padding: 20px; border-radius: 8px;">
+          <p><strong>Email:</strong> ${currentUser.email}</p>
+          <p><strong>Plan:</strong> ${currentUser.is_premium ? 'Premium' : 'Free'}</p>
+          <button class="secondary" onclick="logout()">Logout</button>
+        </div>
+      `;
+    }
+
+    async function loadSaved() {
+      if (!currentUser) {
+        document.getElementById('savedContainer').innerHTML = '<p>Please login to view saved companies.</p>';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/saved-companies`, {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('h1b_token')}` }
+        });
+        const data = await response.json();
+        const container = document.getElementById('savedContainer');
+
+        if (data.companies && data.companies.length > 0) {
+          container.innerHTML = data.companies.map(c => `
+            <div class="company-card">
+              <h3>${c.name}</h3>
+              <p>${c.industry}</p>
+            </div>
+          `).join('');
+        } else {
+          container.innerHTML = '<p>No saved companies.</p>';
+        }
+      } catch (err) {
+        console.error('Failed to load saved:', err);
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
 </body>
 </html>

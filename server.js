@@ -90,11 +90,6 @@ function initializeDatabase() {
   // Migrate columns that may already exist
   const migrations = [
     'ALTER TABLE companies ADD COLUMN career_page_url TEXT',
-    'ALTER TABLE companies ADD COLUMN linkedin_jobs_url TEXT',
-    'ALTER TABLE companies ADD COLUMN indeed_company_url TEXT',
-    'ALTER TABLE companies ADD COLUMN target_location TEXT',
-    'ALTER TABLE users ADD COLUMN resume_attempts_used INTEGER DEFAULT 0',
-    'ALTER TABLE users ADD COLUMN saved_companies_json TEXT DEFAULT \'[]\'',
   ];
   for (const sql of migrations) {
     try { db.exec(sql); } catch (e) { /* column already exists */ }
@@ -211,65 +206,92 @@ function initializeDatabase() {
   if (companyCount.count === 0) {
     console.log('Seeding H-1B company database...');
     const H1B_COMPANIES = [
-      { name: "Amazon", industry: "Technology", h1b_petitions_filed: 9265, approval_rate: 94, denial_rate: 6, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Google", industry: "Technology", h1b_petitions_filed: 7842, approval_rate: 96, denial_rate: 4, average_salary: 185000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Microsoft", industry: "Technology", h1b_petitions_filed: 7123, approval_rate: 95, denial_rate: 5, average_salary: 172000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Meta", industry: "Technology", h1b_petitions_filed: 4521, approval_rate: 93, denial_rate: 7, average_salary: 178000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Apple", industry: "Technology", h1b_petitions_filed: 3892, approval_rate: 95, denial_rate: 5, average_salary: 175000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Infosys", industry: "IT Consulting", h1b_petitions_filed: 31000, approval_rate: 88, denial_rate: 12, average_salary: 95000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II" },
-      { name: "Tata Consultancy Services", industry: "IT Consulting", h1b_petitions_filed: 19500, approval_rate: 87, denial_rate: 13, average_salary: 92000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II" },
-      { name: "Wipro", industry: "IT Consulting", h1b_petitions_filed: 14200, approval_rate: 86, denial_rate: 14, average_salary: 90000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II" },
-      { name: "Cognizant", industry: "IT Consulting", h1b_petitions_filed: 12400, approval_rate: 88, denial_rate: 12, average_salary: 98000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II" },
-      { name: "HCL Technologies", industry: "IT Consulting", h1b_petitions_filed: 8900, approval_rate: 87, denial_rate: 13, average_salary: 93000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II" },
-      { name: "Accenture", industry: "IT Consulting", h1b_petitions_filed: 6800, approval_rate: 91, denial_rate: 9, average_salary: 115000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "IBM", industry: "Technology", h1b_petitions_filed: 5200, approval_rate: 92, denial_rate: 8, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Capgemini", industry: "IT Consulting", h1b_petitions_filed: 5600, approval_rate: 89, denial_rate: 11, average_salary: 105000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level II-III" },
-      { name: "Deloitte", industry: "Consulting", h1b_petitions_filed: 4100, approval_rate: 93, denial_rate: 7, average_salary: 130000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "JPMorgan Chase", industry: "Finance", h1b_petitions_filed: 3200, approval_rate: 94, denial_rate: 6, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Goldman Sachs", industry: "Finance", h1b_petitions_filed: 2800, approval_rate: 95, denial_rate: 5, average_salary: 160000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Morgan Stanley", industry: "Finance", h1b_petitions_filed: 2400, approval_rate: 94, denial_rate: 6, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Citigroup", industry: "Finance", h1b_petitions_filed: 2100, approval_rate: 92, denial_rate: 8, average_salary: 135000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Bank of America", industry: "Finance", h1b_petitions_filed: 1900, approval_rate: 93, denial_rate: 7, average_salary: 130000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Nvidia", industry: "Technology", h1b_petitions_filed: 3100, approval_rate: 96, denial_rate: 4, average_salary: 195000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Intel", industry: "Technology", h1b_petitions_filed: 2800, approval_rate: 94, denial_rate: 6, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Salesforce", industry: "Technology", h1b_petitions_filed: 2400, approval_rate: 94, denial_rate: 6, average_salary: 158000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Oracle", industry: "Technology", h1b_petitions_filed: 3500, approval_rate: 91, denial_rate: 9, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Qualcomm", industry: "Technology", h1b_petitions_filed: 2100, approval_rate: 95, denial_rate: 5, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Adobe", industry: "Technology", h1b_petitions_filed: 1800, approval_rate: 95, denial_rate: 5, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Cisco", industry: "Technology", h1b_petitions_filed: 2600, approval_rate: 93, denial_rate: 7, average_salary: 148000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Johnson & Johnson", industry: "Healthcare", h1b_petitions_filed: 1800, approval_rate: 94, denial_rate: 6, average_salary: 135000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Pfizer", industry: "Pharma", h1b_petitions_filed: 1650, approval_rate: 95, denial_rate: 5, average_salary: 140000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Merck", industry: "Pharma", h1b_petitions_filed: 1420, approval_rate: 95, denial_rate: 5, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Tesla", industry: "Automotive/Tech", h1b_petitions_filed: 2100, approval_rate: 92, denial_rate: 8, average_salary: 152000, trust_score: 9, sponsors_green_cards: 0, wage_level: "Level II-III" },
-      { name: "Boeing", industry: "Aerospace", h1b_petitions_filed: 2400, approval_rate: 92, denial_rate: 8, average_salary: 128000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "SpaceX", industry: "Aerospace", h1b_petitions_filed: 980, approval_rate: 93, denial_rate: 7, average_salary: 145000, trust_score: 9, sponsors_green_cards: 0, wage_level: "Level II-III" },
-      { name: "Netflix", industry: "Technology", h1b_petitions_filed: 980, approval_rate: 95, denial_rate: 5, average_salary: 280000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level IV" },
-      { name: "Uber", industry: "Technology", h1b_petitions_filed: 1200, approval_rate: 93, denial_rate: 7, average_salary: 172000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "LinkedIn", industry: "Technology", h1b_petitions_filed: 1400, approval_rate: 94, denial_rate: 6, average_salary: 172000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "AMD", industry: "Semiconductors", h1b_petitions_filed: 1600, approval_rate: 94, denial_rate: 6, average_salary: 158000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Walmart", industry: "Retail/Tech", h1b_petitions_filed: 1800, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Palo Alto Networks", industry: "Cybersecurity", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 168000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Snowflake", industry: "Technology", h1b_petitions_filed: 620, approval_rate: 95, denial_rate: 5, average_salary: 178000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Databricks", industry: "Technology", h1b_petitions_filed: 480, approval_rate: 95, denial_rate: 5, average_salary: 182000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Stripe", industry: "Technology", h1b_petitions_filed: 580, approval_rate: 95, denial_rate: 5, average_salary: 185000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Airbnb", industry: "Technology", h1b_petitions_filed: 720, approval_rate: 93, denial_rate: 7, average_salary: 170000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Lockheed Martin", industry: "Defense", h1b_petitions_filed: 1800, approval_rate: 91, denial_rate: 9, average_salary: 132000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "General Motors", industry: "Automotive", h1b_petitions_filed: 1400, approval_rate: 91, denial_rate: 9, average_salary: 118000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Broadcom", industry: "Semiconductors", h1b_petitions_filed: 1800, approval_rate: 93, denial_rate: 7, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "ServiceNow", industry: "Technology", h1b_petitions_filed: 840, approval_rate: 94, denial_rate: 6, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Workday", industry: "Technology", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "CrowdStrike", industry: "Cybersecurity", h1b_petitions_filed: 620, approval_rate: 94, denial_rate: 6, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV" },
-      { name: "Eli Lilly", industry: "Pharma", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 138000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Abbott Laboratories", industry: "Healthcare", h1b_petitions_filed: 1200, approval_rate: 93, denial_rate: 7, average_salary: 128000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Raytheon Technologies", industry: "Defense", h1b_petitions_filed: 1600, approval_rate: 90, denial_rate: 10, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
-      { name: "Wells Fargo", industry: "Finance", h1b_petitions_filed: 1700, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III" },
+      { name: "Amazon", industry: "Technology", h1b_petitions_filed: 9265, approval_rate: 94, denial_rate: 6, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.amazon.jobs" },
+      { name: "Google", industry: "Technology", h1b_petitions_filed: 7842, approval_rate: 96, denial_rate: 4, average_salary: 185000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://careers.google.com" },
+      { name: "Microsoft", industry: "Technology", h1b_petitions_filed: 7123, approval_rate: 95, denial_rate: 5, average_salary: 172000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://careers.microsoft.com" },
+      { name: "Apple", industry: "Technology", h1b_petitions_filed: 3892, approval_rate: 95, denial_rate: 5, average_salary: 175000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.apple.com/careers" },
+      { name: "Meta", industry: "Technology", h1b_petitions_filed: 4521, approval_rate: 93, denial_rate: 7, average_salary: 178000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.metacareers.com" },
+      { name: "Nvidia", industry: "Technology", h1b_petitions_filed: 3100, approval_rate: 96, denial_rate: 4, average_salary: 195000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.nvidia.com/en-us/careers" },
+      { name: "Intel", industry: "Technology", h1b_petitions_filed: 2800, approval_rate: 94, denial_rate: 6, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.intel.com/content/www/us/en/careers" },
+      { name: "Salesforce", industry: "Technology", h1b_petitions_filed: 2400, approval_rate: 94, denial_rate: 6, average_salary: 158000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.salesforce.com/company/careers" },
+      { name: "Oracle", industry: "Technology", h1b_petitions_filed: 3500, approval_rate: 91, denial_rate: 9, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.oracle.com/careers" },
+      { name: "Cisco", industry: "Technology", h1b_petitions_filed: 2600, approval_rate: 93, denial_rate: 7, average_salary: 148000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.cisco.com/c/en/us/about/careers" },
+      { name: "IBM", industry: "Technology", h1b_petitions_filed: 5200, approval_rate: 92, denial_rate: 8, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.ibm.com/careers" },
+      { name: "Adobe", industry: "Technology", h1b_petitions_filed: 1800, approval_rate: 95, denial_rate: 5, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.adobe.com/careers.html" },
+      { name: "Qualcomm", industry: "Technology", h1b_petitions_filed: 2100, approval_rate: 95, denial_rate: 5, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.qualcomm.com/careers" },
+      { name: "Broadcom", industry: "Semiconductors", h1b_petitions_filed: 1800, approval_rate: 93, denial_rate: 7, average_salary: 165000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.broadcom.com/careers" },
+      { name: "AMD", industry: "Semiconductors", h1b_petitions_filed: 1600, approval_rate: 94, denial_rate: 6, average_salary: 158000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.amd.com/en/careers" },
+      { name: "Netflix", industry: "Technology", h1b_petitions_filed: 980, approval_rate: 95, denial_rate: 5, average_salary: 280000, trust_score: 10, sponsors_green_cards: 1, wage_level: "Level IV", career_page_url: "https://www.netflix.com/careers" },
+      { name: "Stripe", industry: "Technology", h1b_petitions_filed: 580, approval_rate: 95, denial_rate: 5, average_salary: 185000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://stripe.com/jobs" },
+      { name: "Airbnb", industry: "Technology", h1b_petitions_filed: 720, approval_rate: 93, denial_rate: 7, average_salary: 170000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.airbnb.com/careers" },
+      { name: "Uber", industry: "Technology", h1b_petitions_filed: 1200, approval_rate: 93, denial_rate: 7, average_salary: 172000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.uber.com/en-US/careers" },
+      { name: "LinkedIn", industry: "Technology", h1b_petitions_filed: 1400, approval_rate: 94, denial_rate: 6, average_salary: 172000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://careers.linkedin.com" },
+      { name: "ServiceNow", industry: "Technology", h1b_petitions_filed: 840, approval_rate: 94, denial_rate: 6, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.servicenow.com/careers" },
+      { name: "Workday", industry: "Technology", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.workday.com/en-US/company/careers" },
+      { name: "Palo Alto Networks", industry: "Cybersecurity", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 168000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.paloaltonetworks.com/careers" },
+      { name: "CrowdStrike", industry: "Cybersecurity", h1b_petitions_filed: 620, approval_rate: 94, denial_rate: 6, average_salary: 162000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.crowdstrike.com/careers" },
+      { name: "Snowflake", industry: "Technology", h1b_petitions_filed: 620, approval_rate: 95, denial_rate: 5, average_salary: 178000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.snowflake.com/careers" },
+      { name: "Databricks", industry: "Technology", h1b_petitions_filed: 480, approval_rate: 95, denial_rate: 5, average_salary: 182000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://databricks.com/careers" },
+      { name: "JPMorgan Chase", industry: "Finance", h1b_petitions_filed: 3200, approval_rate: 94, denial_rate: 6, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://careers.jpmorgan.com" },
+      { name: "Goldman Sachs", industry: "Finance", h1b_petitions_filed: 2800, approval_rate: 95, denial_rate: 5, average_salary: 160000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.goldmansachs.com/careers" },
+      { name: "Morgan Stanley", industry: "Finance", h1b_petitions_filed: 2400, approval_rate: 94, denial_rate: 6, average_salary: 155000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.morganstanley.com/careers" },
+      { name: "Citigroup", industry: "Finance", h1b_petitions_filed: 2100, approval_rate: 92, denial_rate: 8, average_salary: 135000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.citi.com/careers" },
+      { name: "Bank of America", industry: "Finance", h1b_petitions_filed: 1900, approval_rate: 93, denial_rate: 7, average_salary: 130000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://careers.bankofamerica.com" },
+      { name: "Wells Fargo", industry: "Finance", h1b_petitions_filed: 1700, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.wellsfargo.com/careers" },
+      { name: "Johnson & Johnson", industry: "Healthcare", h1b_petitions_filed: 1800, approval_rate: 94, denial_rate: 6, average_salary: 135000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://careers.jnj.com" },
+      { name: "Pfizer", industry: "Pharma", h1b_petitions_filed: 1650, approval_rate: 95, denial_rate: 5, average_salary: 140000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://careers.pfizer.com" },
+      { name: "Eli Lilly", industry: "Pharma", h1b_petitions_filed: 980, approval_rate: 94, denial_rate: 6, average_salary: 138000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://careers.lilly.com" },
+      { name: "Merck", industry: "Pharma", h1b_petitions_filed: 1420, approval_rate: 95, denial_rate: 5, average_salary: 145000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level III-IV", career_page_url: "https://www.merck.com/careers" },
+      { name: "Abbott Laboratories", industry: "Healthcare", h1b_petitions_filed: 1200, approval_rate: 93, denial_rate: 7, average_salary: 128000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.abbott.com/careers" },
+      { name: "Boeing", industry: "Aerospace", h1b_petitions_filed: 2400, approval_rate: 92, denial_rate: 8, average_salary: 128000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.boeing.com/careers" },
+      { name: "Lockheed Martin", industry: "Defense", h1b_petitions_filed: 1800, approval_rate: 91, denial_rate: 9, average_salary: 132000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.lockheedmartin.com/en-us/careers" },
+      { name: "Raytheon Technologies", industry: "Defense", h1b_petitions_filed: 1600, approval_rate: 90, denial_rate: 10, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.rtx.com/careers" },
+      { name: "Tesla", industry: "Automotive", h1b_petitions_filed: 2100, approval_rate: 92, denial_rate: 8, average_salary: 152000, trust_score: 9, sponsors_green_cards: 0, wage_level: "Level II-III", career_page_url: "https://www.tesla.com/careers" },
+      { name: "General Motors", industry: "Automotive", h1b_petitions_filed: 1400, approval_rate: 91, denial_rate: 9, average_salary: 118000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.gm.com/careers" },
+      { name: "Walmart", industry: "Retail/Tech", h1b_petitions_filed: 1800, approval_rate: 91, denial_rate: 9, average_salary: 125000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://careers.walmart.com" },
+      { name: "Infosys", industry: "IT Consulting", h1b_petitions_filed: 31000, approval_rate: 88, denial_rate: 12, average_salary: 95000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II", career_page_url: "https://www.infosys.com/careers" },
+      { name: "Accenture", industry: "IT Consulting", h1b_petitions_filed: 6800, approval_rate: 91, denial_rate: 9, average_salary: 115000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www.accenture.com/us-en/careers" },
+      { name: "Deloitte", industry: "Consulting", h1b_petitions_filed: 4100, approval_rate: 93, denial_rate: 7, average_salary: 130000, trust_score: 9, sponsors_green_cards: 1, wage_level: "Level II-III", career_page_url: "https://www2.deloitte.com/us/en/careers.html" },
+      { name: "Capgemini", industry: "IT Consulting", h1b_petitions_filed: 5600, approval_rate: 89, denial_rate: 11, average_salary: 105000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level II-III", career_page_url: "https://www.capgemini.com/us-en/careers" },
+      { name: "Cognizant", industry: "IT Consulting", h1b_petitions_filed: 12400, approval_rate: 88, denial_rate: 12, average_salary: 98000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II", career_page_url: "https://www.cognizant.com/en/careers" },
+      { name: "Wipro", industry: "IT Consulting", h1b_petitions_filed: 14200, approval_rate: 86, denial_rate: 14, average_salary: 90000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II", career_page_url: "https://careers.wipro.com" },
+      { name: "Tata Consultancy Services", industry: "IT Consulting", h1b_petitions_filed: 19500, approval_rate: 87, denial_rate: 13, average_salary: 92000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II", career_page_url: "https://www.tcs.com/careers" },
+      { name: "HCL Technologies", industry: "IT Consulting", h1b_petitions_filed: 8900, approval_rate: 87, denial_rate: 13, average_salary: 93000, trust_score: 8, sponsors_green_cards: 0, wage_level: "Level I-II", career_page_url: "https://www.hcltech.com/careers" },
     ];
+
+    // Drop old companies table if it has wrong schema
+    try {
+      const tableInfo = db.prepare('PRAGMA table_info(companies)').all();
+      const hasCareerUrl = tableInfo.some(col => col.name === 'career_page_url');
+      if (!hasCareerUrl) {
+        db.exec('DROP TABLE IF EXISTS companies');
+        db.exec(`
+          CREATE TABLE companies (
+            id TEXT PRIMARY KEY,
+            name TEXT UNIQUE NOT NULL,
+            industry TEXT,
+            h1b_petitions_filed INTEGER,
+            approval_rate REAL,
+            denial_rate REAL,
+            average_salary INTEGER,
+            trust_score INTEGER,
+            sponsors_green_cards BOOLEAN,
+            wage_level TEXT,
+            career_page_url TEXT,
+            last_updated DATETIME,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          )
+        `);
+      }
+    } catch (e) {
+      console.error('Schema migration error (non-fatal):', e.message);
+    }
 
     const seedStmt = db.prepare(`
       INSERT OR IGNORE INTO companies
       (id, name, industry, h1b_petitions_filed, approval_rate, denial_rate,
-       average_salary, trust_score, sponsors_green_cards, wage_level, last_updated)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+       average_salary, trust_score, sponsors_green_cards, wage_level, career_page_url, last_updated)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
     `);
 
     const seedMany = db.transaction((companies) => {
@@ -277,15 +299,16 @@ function initializeDatabase() {
         const id = require('crypto').randomUUID();
         seedStmt.run(id, c.name, c.industry, c.h1b_petitions_filed,
           c.approval_rate, c.denial_rate, c.average_salary,
-          c.trust_score, c.sponsors_green_cards, c.wage_level);
+          c.trust_score, c.sponsors_green_cards, c.wage_level, c.career_page_url);
       }
     });
 
-    seedMany(H1B_COMPANIES);
-    console.log(`Seeded ${H1B_COMPANIES.length} H-1B sponsoring companies.`);
+    // Only seed the first 50 companies (top tier)
+    seedMany(H1B_COMPANIES.slice(0, 50));
+    console.log(`Seeded top 50 H-1B sponsoring companies.`);
   }
 
-  console.log('Database initialized');
+  console.log('Database initialized - Top 50 H-1B sponsors only');
 }
 
 // ── COMPANY JOB SOURCES ───────────────────────────────────────────────────────
